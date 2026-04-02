@@ -64,8 +64,22 @@ The frontend is deployed automatically via `.github/workflows/deploy-pages.yml` 
 
 ---
 
-### 🛠️ Useful Commands (常用指令)
+### 🛑 如何關閉後端伺服器？
 
-- **Stop Backend (停止後端):** `docker-compose down` (in `backend/` folder)
-- **Restart Backend (重啟後台):** `docker-compose restart`
-- **View Tunnel Logs (查看隧道與網址):** `docker-compose logs -f cloudflared`
+當您不想再開放別人使用您的實驗室電腦時，只需要在電腦的終端機執行關閉指令：
+
+1. 確保您在 `backend` 資料夾下：
+   ```bash
+   cd backend
+   ```
+2. 執行關閉指令（這會自動關閉 API 和 Cloudflare 通道）：
+   ```bash
+   docker-compose down
+   ```
+
+---
+
+### 🛠️ 其他常用指令
+
+- **重啟後台 (Restart Backend):** `cd backend && docker-compose restart`
+- **查看隧道與新網址 (View Tunnel Logs):** `cd backend && docker-compose logs -f cloudflared`
