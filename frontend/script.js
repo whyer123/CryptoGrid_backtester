@@ -1,6 +1,6 @@
 // 填入您架設後端伺服器的網址 (如果是放在 GitHub Pages，這裡必須填寫您真實的伺服器 IP 或網域)
 // 例如: const BACKEND_URL = 'http://134.xxx.xxx.xxx:8080';
-const BACKEND_URL = ''; // 留空則預設為當前網域
+const BACKEND_URL = 'https://whyer123.github.io/CryptoGrid_backtester/'; // 留空則預設為當前網域
 
 document.addEventListener('DOMContentLoaded', () => {
     const defaultBounds = {
@@ -43,10 +43,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('backtestForm');
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        
+
         let sym = symbolSelect.value;
         if (sym === 'CUSTOM') sym = customSymbol.value.trim().toUpperCase();
-        
+
         const payload = {
             symbol: sym,
             start_time: document.getElementById('start_time').value,
@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const spinner = document.getElementById('spinner');
         btnText.classList.add('hidden');
         spinner.classList.remove('hidden');
-        
+
         try {
             const apiUrl = BACKEND_URL ? `${BACKEND_URL}/api/backtest` : '/api/backtest';
             const res = await fetch(apiUrl, {
@@ -71,12 +71,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify(payload)
             });
             const data = await res.json();
-            
+
             if (!res.ok || !data.success) {
                 alert(data.error || "Unknown Error from Server");
                 return;
             }
-            
+
             renderResults(data);
         } catch (err) {
             alert("Network Error: Make sure backend is running.\n" + err.message);
@@ -90,10 +90,10 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('initialPrompt').classList.add('hidden');
         const metaInfo = document.getElementById('metaInfo');
         const resultsGrid = document.getElementById('resultsGrid');
-        
+
         metaInfo.classList.remove('hidden');
         resultsGrid.classList.remove('hidden');
-        
+
         const m = data.metadata;
         metaInfo.innerHTML = `
             <div class="meta-item"><span class="meta-label">Symbol</span><span class="meta-val" style="color:var(--primary)">${m.symbol}</span></div>
@@ -102,20 +102,20 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="meta-item"><span class="meta-label">Start Px</span><span class="meta-val">${Number(m.initial_price).toFixed(2)}</span></div>
             <div class="meta-item"><span class="meta-label">Capital</span><span class="meta-val">${m.total_capital} USDT<br><span style="font-size:0.8rem;color:var(--text-muted)">(${m.investment}x${m.leverage})</span></span></div>
         `;
-        
+
         resultsGrid.innerHTML = '';
         data.results.forEach((r, index) => {
             const isPos = r.total_pnl >= 0;
             const tClass = isPos ? 'pos' : 'neg';
             const bClass = isPos ? 'profit-pos' : 'profit-neg';
             const sign = isPos ? '+' : '';
-            
+
             const card = document.createElement('div');
             card.className = 'result-card ' + (index === 0 ? 'fade-in' : '');
-            if(index > 0) card.style.animationDelay = (index * 0.1) + 's';
+            if (index > 0) card.style.animationDelay = (index * 0.1) + 's';
             card.style.animationFillMode = 'both';
             card.classList.add('fade-in');
-            
+
             card.innerHTML = `
                 <div class="card-header">
                     <div class="grid-title">${r.grid_config} Grids</div>
@@ -156,9 +156,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     <span class="stat-val">${r.gap.toFixed(2)} USDT</span>
                 </div>
             `;
-            
+
             card.addEventListener('click', () => showModal(r));
-            
+
             resultsGrid.appendChild(card);
         });
     }
@@ -166,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function showModal(r) {
         modalTitle.textContent = `${r.grid_config} Grids - Match History`;
         modalBody.innerHTML = '';
-        
+
         if (!r.match_history || r.match_history.length === 0) {
             modalBody.innerHTML = '<div class="history-empty">No arbitrage executed yet.</div>';
         } else {
@@ -181,7 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 modalBody.appendChild(item);
             });
         }
-        
+
         modal.classList.add('active');
     }
 });
