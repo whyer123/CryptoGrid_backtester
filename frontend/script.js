@@ -1,7 +1,7 @@
 // 填入您架設後端伺服器的網址 (如果是放在 GitHub Pages，這裡必須填寫您真實的伺服器 IP 或網域)
 // 例如: const BACKEND_URL = 'http://134.xxx.xxx.xxx:8080';
 // 例如: const BACKEND_URL = 'http://134.xxx.xxx.xxx:8080';
-const BACKEND_URL = 'https://compiled-climb-sentence-suggest.trycloudflare.com';
+const BACKEND_URL = 'https://compiled-climb-sentence-suggest.trycloudflare.com/api';
 
 const locales = {
     en: {
