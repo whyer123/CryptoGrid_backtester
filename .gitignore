@@ -24,3 +24,5 @@ env/
 
 dist/
 .env.production
+
+node_modules/
