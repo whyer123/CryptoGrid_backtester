@@ -11,7 +11,12 @@ app = FastAPI(title="Pionex Grid Backtest API")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    # 這裡填寫您的前端網址，確保只有您的網頁可以呼叫這個 API
+    allow_origins=[
+        "https://whyer123.github.io",
+        "http://localhost:8080",
+        "http://127.0.0.1:8080"
+    ],
     allow_methods=["*"],
     allow_headers=["*"],
 )
