@@ -96,11 +96,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateLanguage() {
         document.querySelectorAll('[data-i18n]').forEach(el => {
             const key = el.getAttribute('data-i18n');
-            if(locales[currentLang][key]) el.innerHTML = locales[currentLang][key];
+            if (locales[currentLang][key]) el.innerHTML = locales[currentLang][key];
         });
         document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
             const key = el.getAttribute('data-i18n-placeholder');
-            if(locales[currentLang][key]) el.placeholder = locales[currentLang][key];
+            if (locales[currentLang][key]) el.placeholder = locales[currentLang][key];
         });
         langToggle.textContent = locales[currentLang].langToggle;
     }
@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const m = data.metadata;
         const T = locales[currentLang];
-        
+
         metaInfo.innerHTML = `
             <div class="meta-item"><span class="meta-label">${T.symbol}</span><span class="meta-val" style="color:var(--primary)">${m.symbol}</span></div>
             <div class="meta-item"><span class="meta-label">${T.timeRange}</span><span class="meta-val" style="font-size:0.95rem">${m.real_start} <br> ${m.real_end}</span></div>
