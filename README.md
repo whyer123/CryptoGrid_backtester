@@ -51,12 +51,11 @@ The frontend is deployed automatically via `.github/workflows/deploy-pages.yml` 
     ```
 
 2. **Deploy to GitHub Pages:**
-    將剛剛的變動透過終端機推送到 GitHub 上，GitHub Actions 就會在背景自動替您部署最新的站點！
+    進入 `frontend` 目錄並執行部署腳本，腳本會自動替您完成打包上傳，GitHub Actions 接著就會在背景為您發佈最新的站點！
 
     ```bash
-    git add frontend/script.js
-    git commit -m "Update backend API URL"
-    git push origin main
+    cd frontend
+    npm run deploy
     ```
 
 3. **Visit your site:**
