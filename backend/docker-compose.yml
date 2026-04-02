@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  backend:
+    build: .
+    container_name: pionex-backend
+    restart: always
+    ports:
+      - "8080:8080"
+  
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: pionex-tunnel
+    restart: always
+    command: tunnel --url http://backend:8080
+    depends_on:
+      - backend

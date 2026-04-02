@@ -1,67 +1,72 @@
-# Pionex Grid Backtester (Web App Edition)
+# Pionex Grid Backtester
 
-這是一個具有極簡現代、高級玻璃擬物視覺 (Glassmorphism) 的 Pionex 網格回測工具。它整合了準確的 Pionex 歷史 K 線、精準的網格獲利與浮動盈虧運算。
+Advanced Contract Grid Simulation Engine based on real-time K-lines.
 
-**分離式架構**：目前的設計可以完美支援「前端託管於 GitHub Pages」同時「後端執行於自己的遠端 Server」的情境！專案已經分為 `frontend` 與 `backend` 兩個資料夾。
+## 🚀 Deployment Guide / 部署指南
 
----
+This project consists of a **Python FastAPI Backend** (hosted locally via Docker + Cloudflare Tunnel) and a **Vanilla JS Frontend** (hosted on GitHub Pages).
 
-## 🚀 前端已成功部屬 (GitHub Pages)
+### Prerequisites / 事前準備
 
-您的前端網站現已成功上線於：
-👉 **[https://whyer123.github.io/CryptoGrid_backtester/](https://whyer123.github.io/CryptoGrid_backtester/)**
-
-目前 GitHub Pages 會透過 `.github/workflows/deploy-pages.yml` 自動將 `frontend` 資料夾發佈。要讓這個精美的網頁順利運作，必須讓它連上您的「後端伺服器」。
-
-### 如何修改程式綁定您的後端伺服器？
-1. 打開專案中的 `frontend/script.js` 檔案。
-2. 找到最上方的 `BACKEND_URL` 變數。
-3. 將它替換成您**真實伺服器的 IP 與通訊埠**（必須包含 `http://` 或 `https://`）。
-   ```javascript
-   const BACKEND_URL = 'http://130.xxx.xxx.xxx:8080'; 
-   ```
-4. 存檔後，在終端機推送到 GitHub：
-   ```bash
-   git add frontend/script.js
-   git commit -m "Update BACKEND_URL"
-   git push origin main
-   ```
-5. GitHub Action 背景跑完後 (約 1 分鐘)，重新整理您的網頁，前端就會自動把計算任務交給您的伺服器了！
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and running.
+- (Optional) Git installed for pushing frontend updates.
 
 ---
 
-## 🛠️ 在自己的伺服器上部署後端 (API)
+### 1️⃣ Backend Deployment (Local + Cloudflare Tunnel)
 
-後端位於 `backend` 資料夾，負責調用 Pionex API 並執行網格試算。
+We use Docker Compose to run both the FastAPI Backend and Cloudflare Tunnel together. 這完美解決了學校實驗室 24 小時不關機的電腦要對外開放連線的問題！
 
-### 1. 構建映像檔
-將 `backend` 資料夾上傳到伺服器上。進入該目錄後，執行：
-```bash
-cd backend
-docker build -t pionex-backtester .
-```
+1. **Navigate to the backend directory:**
+    ```bash
+    cd backend
+    ```
 
-### 2. 啟動後端容器
-```bash
-docker run -p 8080:8080 -d --name pionex-web pionex-backtester
-```
-> ※ 注意您的伺服器防火牆要打開 `8080` port，讓 GitHub Pages 上的網頁可以順利 Call 到您的 API。如果您有綁定網域，將網域指向這個 IP 即可加上 HTTPS。
+2. **Start the services:**
+    ```bash
+    docker-compose up -d
+    ```
 
-### 3. 未來想要重啟或更新後端？
-若您修改了 Python 程式，必須強制關閉舊容器再重新構建並啟動：
-```bash
-docker rm -f pionex-web
-docker build -t pionex-backtester .
-docker run -p 8080:8080 -d --name pionex-web pionex-backtester
-```
+3. **Get the Public URL:**
+    Since we are using a Quick Tunnel, the URL changes every time you restart. View the logs to find the assigned `https://` URL.
+    ```bash
+    docker-compose logs cloudflared
+    ```
+    Look for a line like:
+    > `https://xxxx-xxxx-xxxx.trycloudflare.com`
 
-*(註：為了安全起見，我在 `backend/app.py` 中已經將 CORS Origins 鎖定為 `https://whyer123.github.io`，確保只有您專屬的前端網址有權限呼叫這個伺服器的運算資源！)*
+*(註：這段自動生成的 Cloudflare 網址已經具備 HTTPS 高強度加密，而且能完美打穿實驗室防火牆！)*
 
 ---
 
-## 💻 本地環境測試腳本
+### 2️⃣ Frontend Deployment (GitHub Pages)
 
-如果在自己電腦上想要開發或測試，可進入 `backend` 直接執行：
-```bash
-python3 grid_backtest.py
-```
+The frontend is deployed automatically via `.github/workflows/deploy-pages.yml` when pushing to the `main` branch.
+
+1. **Update the API URL:**
+    打開 `frontend/script.js`，將您在上一步拿到的 Cloudflare 網址貼在第一行的 `BACKEND_URL` 裡。
+
+    ```javascript
+    const BACKEND_URL = 'https://xxxx-xxxx-xxxx.trycloudflare.com';
+    ```
+
+2. **Deploy to GitHub Pages:**
+    將剛剛的變動透過終端機推送到 GitHub 上，GitHub Actions 就會在背景自動替您部署最新的站點！
+
+    ```bash
+    git add frontend/script.js
+    git commit -m "Update backend API URL"
+    git push origin main
+    ```
+
+3. **Visit your site:**
+    大約不到 1 分鐘，您的 App 就能於全世界任何地方訪問囉：
+    > [https://whyer123.github.io/CryptoGrid_backtester/](https://whyer123.github.io/CryptoGrid_backtester/)
+
+---
+
+### 🛠️ Useful Commands (常用指令)
+
+- **Stop Backend (停止後端):** `docker-compose down` (in `backend/` folder)
+- **Restart Backend (重啟後台):** `docker-compose restart`
+- **View Tunnel Logs (查看隧道與網址):** `docker-compose logs -f cloudflared`

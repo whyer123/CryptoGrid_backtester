@@ -1,0 +1,8 @@
+{
+  "name": "pionex-frontend-deployer",
+  "version": "1.0.0",
+  "description": "Frontend Deploy Script",
+  "scripts": {
+    "deploy": "git add . && git commit -m \"chore: update backend URL and deploy\" && git push origin main"
+  }
+}
