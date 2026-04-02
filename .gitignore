@@ -1,0 +1,23 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# IDE / Editor settings
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Temporary reports/logs that shouldn't be versioned
+backtest_report_*.txt
+*.log
+
+# C environment / Secrets
+.env
+pionex_secrets.py
+
+# Python virtual environment
+venv/
+env/

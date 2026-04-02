@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whyer Grid Backtester</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="bg-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>Pionex Grid <span>Backtester</span></h1>
+            <p>Advanced Contract Grid Simulation Engine</p>
+        </header>
+
+        <main>
+            <aside class="config-panel glass-card">
+                <h2>Configuration</h2>
+                <form id="backtestForm">
+                    <div class="form-group">
+                        <label>Symbol</label>
+                        <select id="symbol" name="symbol">
+                            <option value="BTC_USDT">BTC_USDT</option>
+                            <option value="ETH_USDT">ETH_USDT</option>
+                            <option value="SOL_USDT">SOL_USDT</option>
+                            <option value="SUI_USDT">SUI_USDT</option>
+                            <option value="CUSTOM">Custom...</option>
+                        </select>
+                        <input type="text" id="customSymbol" name="customSymbol" class="hidden"
+                            placeholder="e.g. DOGE_USDT" style="margin-top: 0.5rem">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Start Date</label>
+                            <input type="text" id="start_time" name="start_time" placeholder="YYYYMMDD"
+                                value="20260303">
+                        </div>
+                        <div class="form-group">
+                            <label>End Date</label>
+                            <input type="text" id="end_time" name="end_time" placeholder="empty=today">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Lower Bound</label>
+                            <input type="number" id="lower" name="lower" step="any" value="54000">
+                        </div>
+                        <div class="form-group">
+                            <label>Upper Bound</label>
+                            <input type="number" id="upper" name="upper" step="any" value="78000">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Investment (USDT)</label>
+                            <input type="number" id="capital" name="capital" step="any" value="240">
+                        </div>
+                        <div class="form-group">
+                            <label>Leverage (x)</label>
+                            <input type="number" id="leverage" name="leverage" step="any" value="5">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Compare Grids (comma separated)</label>
+                        <input type="text" id="grids" name="grids" value="6, 12, 24">
+                    </div>
+
+                    <button type="submit" class="btn-primary" id="runBtn">
+                        <span class="btn-text">Run Simulation</span>
+                        <div class="spinner hidden" id="spinner"></div>
+                    </button>
+
+                    <div style="margin-top: 1rem; font-size: 0.8rem; color: var(--text-muted); text-align: center;">
+                        Powered by Pionex Real-Time API
+                    </div>
+                </form>
+            </aside>
+
+            <section class="results-area">
+                <div id="metaInfo" class="meta-info glass-card hidden">
+                    <!-- Dynamic meta info -->
+                </div>
+
+                <div id="resultsGrid" class="results-grid hidden">
+                    <!-- Dynamic result cards -->
+                </div>
+
+                <div id="initialPrompt" class="empty-state">
+                    <div class="empty-icon">📊</div>
+                    <h3>Ready to Simulate</h3>
+                    <p>Enter your configuration on the left and run the backtest to see advanced metrics.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal for History Details -->
+    <div id="historyModal" class="modal-overlay">
+        <div class="modal-content glass-card">
+            <div class="modal-header">
+                <h3 id="modalTitle">Match History</h3>
+                <button id="closeModal" class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- History list goes here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
