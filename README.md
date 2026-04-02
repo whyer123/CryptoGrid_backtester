@@ -41,17 +41,17 @@ We use Docker Compose to run both the FastAPI Backend and Cloudflare Tunnel toge
 
 ### 2️⃣ Frontend Deployment (GitHub Pages)
 
-The frontend is deployed automatically via `.github/workflows/deploy-pages.yml` when pushing to the `main` branch.
+The frontend uses a zero-conflict deployment script (Option C), compiling to a `gh-pages` branch locally without dirtying your `main` branch.
 
 1. **Update the API URL:**
-    打開 `frontend/script.js`，將您在上一步拿到的 Cloudflare 網址貼在第一行的 `BACKEND_URL` 裡。
+    打開 `frontend/.env.production`，將您在上一步拿到的 Cloudflare 網址貼在這個隱藏檔裡面（記得網址最後要加上 `/api`）。這個檔案是不會被同步到 Github 上的，所以兩台電腦可以分別設定不同網址！
 
-    ```javascript
-    const BACKEND_URL = 'https://xxxx-xxxx-xxxx.trycloudflare.com';
+    ```env
+    VITE_API_BASE_URL=https://xxxx-xxxx-xxxx.trycloudflare.com/api
     ```
 
 2. **Deploy to GitHub Pages:**
-    進入 `frontend` 目錄並執行部署腳本，腳本會自動替您完成打包上傳，GitHub Actions 接著就會在背景為您發佈最新的站點！
+    進入 `frontend` 目錄並執行部署腳本，腳本會自動替您完成打包上傳，並且「只」推送到 `gh-pages` 分支發佈最新的站點！
 
     ```bash
     cd frontend
