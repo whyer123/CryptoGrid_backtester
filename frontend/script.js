@@ -1,7 +1,5 @@
-// 填入您架設後端伺服器的網址 (如果是放在 GitHub Pages，這裡必須填寫您真實的伺服器 IP 或網域)
-// 例如: const BACKEND_URL = 'http://134.xxx.xxx.xxx:8080';
-// 例如: const BACKEND_URL = 'http://134.xxx.xxx.xxx:8080';
-const BACKEND_URL = 'https://promise-biggest-their-mount.trycloudflare.com/api';
+// 在此填寫後端網址 (編譯腳本會自動替換)
+const BACKEND_URL = '__BACKEND_URL_PLACEHOLDER__';
 
 const locales = {
     en: {

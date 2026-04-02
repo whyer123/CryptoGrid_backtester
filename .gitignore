@@ -21,3 +21,6 @@ pionex_secrets.py
 # Python virtual environment
 venv/
 env/
+
+dist/
+.env.production

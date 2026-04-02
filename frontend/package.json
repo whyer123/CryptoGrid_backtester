@@ -3,6 +3,16 @@
   "version": "1.0.0",
   "description": "Frontend Deploy Script",
   "scripts": {
-    "deploy": "git add . && git commit -m \"chore: update backend URL and deploy\" && git push origin main"
+    "build": "node build.js",
+    "deploy": "npm run build && gh-pages -d dist -m 'deploy'"
+  },
+  "main": "script.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "dotenv": "^17.4.0",
+    "fs-extra": "^11.3.4",
+    "gh-pages": "^6.3.0"
   }
 }
