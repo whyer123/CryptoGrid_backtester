@@ -1,6 +1,83 @@
 // 填入您架設後端伺服器的網址 (如果是放在 GitHub Pages，這裡必須填寫您真實的伺服器 IP 或網域)
 // 例如: const BACKEND_URL = 'http://134.xxx.xxx.xxx:8080';
+// 例如: const BACKEND_URL = 'http://134.xxx.xxx.xxx:8080';
 const BACKEND_URL = 'https://whyer123.github.io/CryptoGrid_backtester/'; // 留空則預設為當前網域
+
+const locales = {
+    en: {
+        titleSuffix: "Backtester",
+        subtitle: "Advanced Contract Grid Simulation Engine",
+        config: "Configuration",
+        symbol: "Symbol",
+        customSymbol: "Custom...",
+        startDate: "Start Date",
+        endDate: "End Date",
+        emptyToday: "empty=today",
+        lowerBound: "Lower Bound",
+        upperBound: "Upper Bound",
+        investment: "Investment (USDT)",
+        leverage: "Leverage (x)",
+        compareGrids: "Compare Grids (comma separated)",
+        runSimulation: "Run Simulation",
+        poweredBy: "Powered by Pionex Real-Time API",
+        readyTitle: "Ready to Simulate",
+        readyDesc: "Enter your configuration on the left and run the backtest to see advanced metrics.",
+        matchHistory: "Match History",
+        timeRange: "Time Range",
+        interval: "Interval",
+        startPx: "Start Px",
+        capital: "Capital",
+        grids: "Grids",
+        totalPnl: "Total PNL",
+        gridProfit: "Grid Profit (Matched)",
+        trendPnl: "Trend PNL (Floating)",
+        arbitrageCount: "Arbitrage Count",
+        qtyPerGrid: "Qty per Grid",
+        gridGap: "Grid Gap",
+        times: "times",
+        noArbitrage: "No arbitrage executed yet.",
+        networkError: "Network Error: Make sure backend is running.",
+        unknownError: "Unknown Error from Server",
+        langToggle: "中文"
+    },
+    zh: {
+        titleSuffix: "網格回測",
+        subtitle: "進階合約網格模擬與評估分析引擎",
+        config: "參數設定",
+        symbol: "交易對",
+        customSymbol: "自訂...",
+        startDate: "開始日期",
+        endDate: "結束日期",
+        emptyToday: "留空為今日",
+        lowerBound: "網格下限",
+        upperBound: "網格上限",
+        investment: "總投資額 (USDT)",
+        leverage: "槓桿倍數 (x)",
+        compareGrids: "比較網格數 (用逗號分隔)",
+        runSimulation: "開始回測",
+        poweredBy: "資料來源: Pionex Real-Time API",
+        readyTitle: "準備就緒",
+        readyDesc: "請在左側輸入您的參數，點擊上方按鈕執行回測以查看進階數據。",
+        matchHistory: "歷史套利紀錄",
+        timeRange: "時間範圍",
+        interval: "K線級別",
+        startPx: "開倉價格",
+        capital: "總資金",
+        grids: "格",
+        totalPnl: "總利潤 PNL",
+        gridProfit: "網格利潤 (已掌握)",
+        trendPnl: "浮動盈虧",
+        arbitrageCount: "套利次數",
+        qtyPerGrid: "每格數量",
+        gridGap: "每格利潤差",
+        times: "次",
+        noArbitrage: "尚無套利紀錄",
+        networkError: "網路錯誤：請確認後端伺服器是否正常運作。",
+        unknownError: "來自伺服器的未知錯誤",
+        langToggle: "English"
+    }
+};
+let currentLang = 'en';
 
 document.addEventListener('DOMContentLoaded', () => {
     const defaultBounds = {
@@ -14,6 +91,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const customSymbol = document.getElementById('customSymbol');
     const lowerInput = document.getElementById('lower');
     const upperInput = document.getElementById('upper');
+
+    const langToggle = document.getElementById('langToggle');
+    function updateLanguage() {
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if(locales[currentLang][key]) el.innerHTML = locales[currentLang][key];
+        });
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+            const key = el.getAttribute('data-i18n-placeholder');
+            if(locales[currentLang][key]) el.placeholder = locales[currentLang][key];
+        });
+        langToggle.textContent = locales[currentLang].langToggle;
+    }
+    langToggle.addEventListener('click', () => {
+        currentLang = currentLang === 'en' ? 'zh' : 'en';
+        updateLanguage();
+    });
+    updateLanguage();
 
     const modal = document.getElementById('historyModal');
     const modalTitle = document.getElementById('modalTitle');
@@ -73,13 +168,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await res.json();
 
             if (!res.ok || !data.success) {
-                alert(data.error || "Unknown Error from Server");
+                alert(data.error || locales[currentLang].unknownError);
                 return;
             }
 
             renderResults(data);
         } catch (err) {
-            alert("Network Error: Make sure backend is running.\n" + err.message);
+            alert(`${locales[currentLang].networkError}\n${err.message}`);
         } finally {
             btnText.classList.remove('hidden');
             spinner.classList.add('hidden');
@@ -95,12 +190,14 @@ document.addEventListener('DOMContentLoaded', () => {
         resultsGrid.classList.remove('hidden');
 
         const m = data.metadata;
+        const T = locales[currentLang];
+        
         metaInfo.innerHTML = `
-            <div class="meta-item"><span class="meta-label">Symbol</span><span class="meta-val" style="color:var(--primary)">${m.symbol}</span></div>
-            <div class="meta-item"><span class="meta-label">Time Range</span><span class="meta-val" style="font-size:0.95rem">${m.real_start} <br> ${m.real_end}</span></div>
-            <div class="meta-item"><span class="meta-label">Interval</span><span class="meta-val">${m.interval}</span></div>
-            <div class="meta-item"><span class="meta-label">Start Px</span><span class="meta-val">${Number(m.initial_price).toFixed(2)}</span></div>
-            <div class="meta-item"><span class="meta-label">Capital</span><span class="meta-val">${m.total_capital} USDT<br><span style="font-size:0.8rem;color:var(--text-muted)">(${m.investment}x${m.leverage})</span></span></div>
+            <div class="meta-item"><span class="meta-label">${T.symbol}</span><span class="meta-val" style="color:var(--primary)">${m.symbol}</span></div>
+            <div class="meta-item"><span class="meta-label">${T.timeRange}</span><span class="meta-val" style="font-size:0.95rem">${m.real_start} <br> ${m.real_end}</span></div>
+            <div class="meta-item"><span class="meta-label">${T.interval}</span><span class="meta-val">${m.interval}</span></div>
+            <div class="meta-item"><span class="meta-label">${T.startPx}</span><span class="meta-val">${Number(m.initial_price).toFixed(2)}</span></div>
+            <div class="meta-item"><span class="meta-label">${T.capital}</span><span class="meta-val">${m.total_capital} USDT<br><span style="font-size:0.8rem;color:var(--text-muted)">(${m.investment}x${m.leverage})</span></span></div>
         `;
 
         resultsGrid.innerHTML = '';
@@ -118,41 +215,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
             card.innerHTML = `
                 <div class="card-header">
-                    <div class="grid-title">${r.grid_config} Grids</div>
+                    <div class="grid-title">${r.grid_config} ${T.grids}</div>
                     <div class="roi-badge ${bClass}">${sign}${r.roi_percent}% ROI</div>
                 </div>
                 
                 <div class="stat-row" style="margin-top: 0.5rem;">
-                    <span class="stat-label">Total PNL</span>
+                    <span class="stat-label">${T.totalPnl}</span>
                     <span class="stat-val val-big ${tClass}">${sign}${r.total_pnl.toFixed(2)} <span style="font-size:1rem;color:var(--text-muted)">USDT</span></span>
                 </div>
                 
                 <div style="height:1px; background:rgba(255,255,255,0.05); margin: 0.5rem 0;"></div>
                 
                 <div class="stat-row">
-                    <span class="stat-label">Grid Profit (Matched)</span>
+                    <span class="stat-label">${T.gridProfit}</span>
                     <span class="stat-val pos">+${r.grid_profit.toFixed(2)}</span>
                 </div>
                 
                 <div class="stat-row">
-                    <span class="stat-label">Trend PNL (Floating)</span>
+                    <span class="stat-label">${T.trendPnl}</span>
                     <span class="stat-val ${r.trend_pnl >= 0 ? 'pos' : 'neg'}">${r.trend_pnl > 0 ? '+' : ''}${r.trend_pnl.toFixed(2)}</span>
                 </div>
                 
                 <div style="height:1px; background:rgba(255,255,255,0.05); margin: 0.5rem 0;"></div>
                 
                 <div class="stat-row">
-                    <span class="stat-label">Arbitrage Count</span>
-                    <span class="stat-val" style="color:#fff">${r.matches} times</span>
+                    <span class="stat-label">${T.arbitrageCount}</span>
+                    <span class="stat-val" style="color:#fff">${r.matches} ${T.times}</span>
                 </div>
                 
                 <div class="stat-row">
-                    <span class="stat-label">Qty per Grid</span>
+                    <span class="stat-label">${T.qtyPerGrid}</span>
                     <span class="stat-val">${r.qty_per_grid.toFixed(5)} ${r.base_coin}</span>
                 </div>
                 
                 <div class="stat-row">
-                    <span class="stat-label">Grid Gap</span>
+                    <span class="stat-label">${T.gridGap}</span>
                     <span class="stat-val">${r.gap.toFixed(2)} USDT</span>
                 </div>
             `;
@@ -164,11 +261,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function showModal(r) {
-        modalTitle.textContent = `${r.grid_config} Grids - Match History`;
+        const T = locales[currentLang];
+        modalTitle.textContent = `${r.grid_config} ${T.grids} - ${T.matchHistory}`;
         modalBody.innerHTML = '';
 
         if (!r.match_history || r.match_history.length === 0) {
-            modalBody.innerHTML = '<div class="history-empty">No arbitrage executed yet.</div>';
+            modalBody.innerHTML = `<div class="history-empty">${T.noArbitrage}</div>`;
         } else {
             const history = [...r.match_history].reverse();
             history.forEach((h, i) => {

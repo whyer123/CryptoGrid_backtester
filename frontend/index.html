@@ -20,22 +20,25 @@
 
     <div class="container">
         <header>
-            <h1>Pionex Grid <span>Backtester</span></h1>
-            <p>Advanced Contract Grid Simulation Engine</p>
+            <div class="header-top">
+                <h1>Pionex Grid <span data-i18n="titleSuffix">Backtester</span></h1>
+                <button id="langToggle" class="lang-btn">中文</button>
+            </div>
+            <p data-i18n="subtitle">Advanced Contract Grid Simulation Engine</p>
         </header>
 
         <main>
             <aside class="config-panel glass-card">
-                <h2>Configuration</h2>
+                <h2 data-i18n="config">Configuration</h2>
                 <form id="backtestForm">
                     <div class="form-group">
-                        <label>Symbol</label>
+                        <label data-i18n="symbol">Symbol</label>
                         <select id="symbol" name="symbol">
                             <option value="BTC_USDT">BTC_USDT</option>
                             <option value="ETH_USDT">ETH_USDT</option>
                             <option value="SOL_USDT">SOL_USDT</option>
                             <option value="SUI_USDT">SUI_USDT</option>
-                            <option value="CUSTOM">Custom...</option>
+                            <option value="CUSTOM" data-i18n="customSymbol">Custom...</option>
                         </select>
                         <input type="text" id="customSymbol" name="customSymbol" class="hidden"
                             placeholder="e.g. DOGE_USDT" style="margin-top: 0.5rem">
@@ -43,49 +46,49 @@
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label>Start Date</label>
+                            <label data-i18n="startDate">Start Date</label>
                             <input type="text" id="start_time" name="start_time" placeholder="YYYYMMDD"
                                 value="20260303">
                         </div>
                         <div class="form-group">
-                            <label>End Date</label>
-                            <input type="text" id="end_time" name="end_time" placeholder="empty=today">
+                            <label data-i18n="endDate">End Date</label>
+                            <input type="text" id="end_time" name="end_time" placeholder="empty=today" data-i18n-placeholder="emptyToday">
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label>Lower Bound</label>
+                            <label data-i18n="lowerBound">Lower Bound</label>
                             <input type="number" id="lower" name="lower" step="any" value="54000">
                         </div>
                         <div class="form-group">
-                            <label>Upper Bound</label>
+                            <label data-i18n="upperBound">Upper Bound</label>
                             <input type="number" id="upper" name="upper" step="any" value="78000">
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label>Investment (USDT)</label>
+                            <label data-i18n="investment">Investment (USDT)</label>
                             <input type="number" id="capital" name="capital" step="any" value="240">
                         </div>
                         <div class="form-group">
-                            <label>Leverage (x)</label>
+                            <label data-i18n="leverage">Leverage (x)</label>
                             <input type="number" id="leverage" name="leverage" step="any" value="5">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label>Compare Grids (comma separated)</label>
+                        <label data-i18n="compareGrids">Compare Grids (comma separated)</label>
                         <input type="text" id="grids" name="grids" value="6, 12, 24">
                     </div>
 
                     <button type="submit" class="btn-primary" id="runBtn">
-                        <span class="btn-text">Run Simulation</span>
+                        <span class="btn-text" data-i18n="runSimulation">Run Simulation</span>
                         <div class="spinner hidden" id="spinner"></div>
                     </button>
 
-                    <div style="margin-top: 1rem; font-size: 0.8rem; color: var(--text-muted); text-align: center;">
+                    <div style="margin-top: 1rem; font-size: 0.8rem; color: var(--text-muted); text-align: center;" data-i18n="poweredBy">
                         Powered by Pionex Real-Time API
                     </div>
                 </form>
@@ -102,8 +105,8 @@
 
                 <div id="initialPrompt" class="empty-state">
                     <div class="empty-icon">📊</div>
-                    <h3>Ready to Simulate</h3>
-                    <p>Enter your configuration on the left and run the backtest to see advanced metrics.</p>
+                    <h3 data-i18n="readyTitle">Ready to Simulate</h3>
+                    <p data-i18n="readyDesc">Enter your configuration on the left and run the backtest to see advanced metrics.</p>
                 </div>
             </section>
         </main>
@@ -113,7 +116,7 @@
     <div id="historyModal" class="modal-overlay">
         <div class="modal-content glass-card">
             <div class="modal-header">
-                <h3 id="modalTitle">Match History</h3>
+                <h3 id="modalTitle" data-i18n="matchHistory">Match History</h3>
                 <button id="closeModal" class="close-btn">&times;</button>
             </div>
             <div class="modal-body" id="modalBody">
