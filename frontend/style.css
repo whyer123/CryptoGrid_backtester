@@ -32,25 +32,36 @@ body {
 @keyframes float { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, -50px) scale(1.1); } }
 
 .container { max-width: 1400px; margin: 0 auto; padding: 2.5rem; display: flex; flex-direction: column; gap: 2.5rem; }
+.relative-container { position: relative; }
 
 header { text-align: left; margin-bottom: 2rem; position: relative; z-index: 10; }
-.header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
-header h1 { font-size: 2.25rem; font-weight: 700; margin-bottom: 0; }
-header h1 span { color: var(--primary); }
-header p { color: var(--text-muted); font-size: 1.1rem; }
+header h1 { font-size: 3.5rem; font-weight: 700; letter-spacing: -1px; margin-bottom: 0.5rem; }
+header h1 span { color: var(--primary); text-shadow: 0 0 20px var(--primary-glow); }
+header p { color: var(--text-muted); font-size: 1.15rem; }
 
 .lang-btn {
-    background: rgba(255, 255, 255, 0.1);
+    position: absolute;
+    top: 2.5rem;
+    right: 2.5rem;
+    background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.2);
     color: white;
-    padding: 0.4rem 0.8rem;
-    border-radius: 20px;
+    padding: 0.5rem 1.25rem;
+    border-radius: 30px;
     cursor: pointer;
-    font-family: var(--font-main);
-    font-size: 0.85rem;
-    transition: all 0.2s ease;
+    font-family: var(--font-ui);
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    z-index: 100;
+    outline: none;
 }
-.lang-btn:hover { background: rgba(255, 255, 255, 0.2); }
+.lang-btn:hover { 
+    background: rgba(255, 255, 255, 0.2); 
+    transform: translateY(-2px); 
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
 
 main { display: grid; grid-template-columns: 380px 1fr; gap: 2.5rem; align-items: start; }
 
