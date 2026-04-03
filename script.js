@@ -157,7 +157,9 @@ document.addEventListener('DOMContentLoaded', () => {
         spinner.classList.remove('hidden');
 
         try {
-            const apiUrl = BACKEND_URL ? `${BACKEND_URL}/api/backtest` : '/api/backtest';
+            let base = BACKEND_URL || '';
+            if (base.endsWith('/api')) base = base.slice(0, -4);
+            const apiUrl = base ? `${base}/api/backtest` : '/api/backtest';
             const res = await fetch(apiUrl, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
