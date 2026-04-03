@@ -1,5 +1,5 @@
 // 在此填寫後端網址 (編譯腳本會自動替換)
-const BACKEND_URL = 'https://their-constraint-hide-pour.trycloudflare.com/api';
+const BACKEND_URL = 'https://fee-cod-republicans-chronicle.trycloudflare.com/api';
 
 const locales = {
     en: {
