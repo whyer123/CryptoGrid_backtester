@@ -1,5 +1,5 @@
 // 在此填寫後端網址 (編譯腳本會自動替換)
-const BACKEND_URL = 'https://promise-biggest-their-mount.trycloudflare.com/api';
+const BACKEND_URL = 'https://phrases-cash-reviewing-appreciation.trycloudflare.com';
 
 const locales = {
     en: {
