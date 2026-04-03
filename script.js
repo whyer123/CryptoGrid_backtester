@@ -1,5 +1,5 @@
 // 在此填寫後端網址 (編譯腳本會自動替換)
-const BACKEND_URL = 'https://cashiers-replaced-minute-improve.trycloudflare.com/api';
+const BACKEND_URL = 'https://download-forms-marking-wma.trycloudflare.com/api';
 
 const locales = {
     en: {
